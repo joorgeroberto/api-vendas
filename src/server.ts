@@ -1,1 +1,1 @@
-console.log('Agora vai!')
+console.log('Agora vai!');
