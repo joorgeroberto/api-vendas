@@ -6,7 +6,7 @@ build/
 temp/
 .env
 coverage
-ormconfig.json
+# ormconfig.json
 dist
 
 uploads/*
