@@ -1,5 +1,5 @@
-// Classe para padronizar as mensagens de erro na nossa aplicação.
 class AppError {
+  // Classe para padronizar as mensagens de erro na nossa aplicação.
   public readonly message: string;
   public readonly statusCode: number;
 
