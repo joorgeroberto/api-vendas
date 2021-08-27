@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import ProductsController from '../controllers/ProductsController';
+// lib de validação de parâmetros que veem em uma rota.
+import { celebrate, Joi, Segments } from 'celebrate';
 
 const productsRouter = Router();
 const productsController = new ProductsController();
@@ -7,9 +9,50 @@ const productsController = new ProductsController();
 // Não iremos definir a rota (tipo /products) aqui
 // pois isso será feito no arquivo 'routes' principal da aplicação.
 productsRouter.get('/', productsController.index);
-productsRouter.get('/:id', productsController.show);
-productsRouter.post('/', productsController.create);
-productsRouter.put('/:id', productsController.update);
-productsRouter.delete('/:id', productsController.delete);
+
+productsRouter.get(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  productsController.show,
+);
+productsRouter.post(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      // precision é a quantidade de casas decimais que o número deve ter.
+      price: Joi.number().precision(2).required(),
+      quantity: Joi.number().required(),
+    },
+  }),
+  productsController.create,
+);
+productsRouter.put(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      price: Joi.number().precision(2).required(),
+      quantity: Joi.number().required(),
+    },
+  }),
+  productsController.update,
+);
+productsRouter.delete(
+  '/:id',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+  }),
+  productsController.delete,
+);
 
 export default productsRouter;
