@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import { getCustomRepository } from 'typeorm';
 import Product from '../typeorm/entities/Product';
-import { ProductRepository } from '../typeorm/repositories/ProductsRepository';
+import ProductRepository from '../typeorm/repositories/ProductsRepository';
 
 // Interface para "tipar" as informações que recebemos na requisição.
 // Interfaces, por convenção, começam com I maiúsculo.
@@ -22,12 +22,10 @@ class CreateProductService {
   public async execute({ name, price, quantity }: IRequest): Promise<Product> {
     // Buscando um repositorio customizado.
     const productsRepository = getCustomRepository(ProductRepository);
-
     // Com isto, temos acesso a todos os métodos deste repositório.
     // Iremos utilizar o findByName criado anteriormente para verificar se um produto existe.
     // Senão existir, poderemos criar um produto com este nome.
     const productExists = await productsRepository.findByName(name);
-
     if (productExists) {
       throw new AppError('There is already one product with this name');
     }
@@ -38,7 +36,6 @@ class CreateProductService {
       price,
       quantity,
     });
-
     await productsRepository.save(product);
 
     return product;

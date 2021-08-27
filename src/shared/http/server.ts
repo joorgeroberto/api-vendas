@@ -1,5 +1,8 @@
 import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
+// Trata exceções geradas a partir de um promise.
+import 'express-async-errors';
+import { errors } from 'celebrate';
 import cors from 'cors';
 import routes from './routes';
 
@@ -12,6 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use(routes);
+
+app.use(errors());
 
 //Middlewares padrão, possuem apenas 3 parametros: Requesty, response e next.
 // Middlewares para tratamento de erros possuem 4: Os 3 informados acima e o error.
