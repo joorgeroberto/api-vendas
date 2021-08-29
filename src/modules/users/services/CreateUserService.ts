@@ -9,7 +9,7 @@ interface IRequest {
   email: string;
 }
 
-class CreateUser {
+class CreateUserService {
   public async execute({ name, email, password }: IRequest): Promise<User> {
     const usersRepository = getCustomRepository(UsersRepository);
     const userWithThisEmailAlreadyExists = await usersRepository.findByEmail(
@@ -31,4 +31,4 @@ class CreateUser {
   }
 }
 
-export default CreateUser;
+export default CreateUserService;
