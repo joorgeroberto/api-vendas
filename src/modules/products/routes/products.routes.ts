@@ -19,6 +19,7 @@ productsRouter.get(
   }),
   productsController.show,
 );
+
 productsRouter.post(
   '/',
   celebrate({
@@ -31,6 +32,7 @@ productsRouter.post(
   }),
   productsController.create,
 );
+
 productsRouter.put(
   '/:id',
   celebrate({
