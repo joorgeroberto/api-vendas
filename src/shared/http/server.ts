@@ -5,6 +5,7 @@ import 'express-async-errors';
 import { errors } from 'celebrate';
 import cors from 'cors';
 import routes from './routes';
+import uploadConfig from '@config/upload';
 
 import AppError from '@shared/errors/AppError';
 import '@shared/typeorm';
@@ -14,11 +15,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// rota estática para pegar a imagem de um usuario
+app.use('/files', express.static(uploadConfig.directory));
+
 app.use(routes);
 
 app.use(errors());
 
-//Middlewares padrão, possuem apenas 3 parametros: Requesty, response e next.
+// Middlewares padrão, possuem apenas 3 parametros: Request, response e next.
 // Middlewares para tratamento de erros possuem 4: Os 3 informados acima e o error.
 app.use(
   (error: Error, request: Request, response: Response, next: NextFunction) => {
