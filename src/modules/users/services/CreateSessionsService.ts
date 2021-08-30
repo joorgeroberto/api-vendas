@@ -1,7 +1,9 @@
 import AppError from '@shared/errors/AppError';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import authConfig from '@config/auth';
 import { getCustomRepository } from 'typeorm';
+
 import User from '../typeorm/entities/User';
 import UsersRepository from '../typeorm/repositories/UsersRepository';
 
@@ -31,11 +33,9 @@ class CreateSessionsService {
     }
 
     // Configutando token
-    // hash gerando usando o site: http://www.md5.cz/
-    // Inserindo caracteres aleatorios
-    const token = sign({}, '096a47bccd0994b7cc7ae46eb592f17c', {
+    const token = sign({}, authConfig.jwt.secret, {
       subject: user.id,
-      expiresIn: '1d', // token com validade de um dia
+      expiresIn: authConfig.jwt.expiresIn,
     });
 
     return {
